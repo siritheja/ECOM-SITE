@@ -1,0 +1,15 @@
+.card-text{
+  color:green;
+  font-weight:800;
+}
+
+.bg-primary {
+  background-color: #10284e !important; }
+
+.btn-primary {
+  background-color: #10284e !important;
+}
+
+.card{
+  margin-bottom: 10px;
+}

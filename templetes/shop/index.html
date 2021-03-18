@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container-fluid">
+        {% if product_list%}
+        <div class="row">
+            <form class="col-md-12">
+                <div class="card card-sm" >
+                    <div class="card-body row no-gytters align-items-center">
+                        <div class="col">
+                            <input type="search" name="item_name" placeholder="Search for products" class=" form-control form-control-borderless">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-success" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class='row'>
+            {% for prod in product_list %}
+            <div class="col-md-3">
+            <div class="card-deck mt-4">
+                
+                <div class="card">
+                  <img class="card-img-top" src="{{prod.image.url}}" alt="Card image cap" style="height:300px;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{prod.name}}</h5>
+                    <p class="card-text">
+                        {% if prod.price > prod.disc_price %}
+                                    <h4>Rs.<s>{{prod.price}}</s></h4>
+                                    <h4 style="color: green;">Rs.{{prod.disc_price}}</h4>
+                        {% else %}
+                                    <h4 style="color: green;">Rs.{{ prod.price }} </h4>
+                        {% endif %}
+                    </p>
+                    <table>
+                        <tr>
+                            <td>
+                                <a href='/{{ prod.id }}' class="btn btn-primary">View</a>
+                            </td>
+                            <td>
+                                <form method="POST">
+                                    {% csrf_token%}
+                                    <button type="submit" class="btn atc btn-primary" name="item_id" value={{prod.id}}>Add To Cart</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>                  
+                </div>
+                </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+        <div class="row"> &nbsp;</div>
+        <div class='row'>
+            <div class="col-md-12">
+                {% if product_list.has_other_pages %}
+                    <ul class="pagination justify-content-end">
+                        {% if product_list.has_previous %}
+                            <li class="page-item">
+                                <a href="?page={{ product_list.previous_page_number }}" class="page-link"> Prev </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">Prev</a>
+                            </li>
+                        {% endif %}
+                        {% for i in product_list.paginator.page_range %}
+                            {% if product_list.number == i %}
+                                <li class="page-item active">
+                                    <a class="page-link">{{i}}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{i}}" class="page-link">{{i}}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if product_list.has_next %}
+                            <li class="page-item">
+                                <a href="?page={{product_list.next_page_number}}" class="page-link"> Next </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link"> Next </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+            <h2>No products available</h2>
+        {% endif %}
+    </div>
+{% endblock %}
+    

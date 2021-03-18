@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block body %}
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>
+                      <i class="fas fa-sign-in-alt">Register</i>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <table>
+                            {% for field in form.visible_fields %}
+                              <tr>
+                                <td>
+                                    {{ field.label_tag }}
+                                </td>
+                                <td>
+                                  {{ field }}
+                                </td>
+                                <td> &nbsp;
+                                    <!-- {% if field.help_text %} 
+                                    {{ field.help_text }}
+                                  {% endif %} --> 
+                                </td>   
+                                <td>
+                                  {% if field.errors %}
+                                    {% for error in field.errors %}
+                                      <li style="color:red">{{ error }}</li>
+                                    {% endfor %}
+                                  {% endif %}
+                                </td>                             
+                              </tr>
+                            {% endfor %}
+                              <tr>
+                                <td colspan="2" style="text-align: center;"><button type="submit" class="btn btn-primary">SignUp</button></td>
+                              </tr>
+                          </table>
+                    </form>                
+                </div>
+            </div>
+        </div>                
+    </div>
+</div>
+{% endblock %}

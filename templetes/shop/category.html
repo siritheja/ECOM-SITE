@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+<br>
+<div class="container-fluid">
+    <div class="row">
+        {% for category in categories %}
+                <div class="col-sm-4">
+                    <div class="card bg-dark text-white">
+                        <a href="{{ category.id }}" style="color: white;">
+                        <img class="card-img" src="{{ category.image.url }}" alt="Card image" style="height: 200px; opacity: 0.5;">
+                        <div class="card-img-overlay">
+                        <h5 class="card-title" style="text-align: center;">{{ category.name }}</h5>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

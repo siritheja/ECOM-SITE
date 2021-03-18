@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body %}
+<br> <br>
+<div class="container-fluid">
+    {% if cart_item %}
+        <table style="width:50%; text-align:center; margin: auto;">
+            <thead>
+                <tr>
+                    <th scope="col"> Item Image </th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"> &nbsp; </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_item %}
+                <form method="POST">
+                {% csrf_token %}
+                <tr>
+                    <td><img src ="{{ item.item.image.url }}" height="40px"></td>
+                    <td>{{ item.item }}</td>
+                    <td><button type="submit" class="btn btn-primary" name="decrease">-</button> {{ item.quantity }} <button type="submit" class="btn btn-primary" name="increase">+</button></td>
+                    <td>{% widthratio item.item.disc_price 1 item.quantity %}</td>
+                    <input type="hidden" name="remove_id" value="{{ item.id }}">
+                    <td><button type="submit" class="btn btn-primary" name="remove">Remove</button></td>
+                </tr>
+                </form>
+                {% endfor %}
+                <tr>
+                    <td colspan=4>&nbsp;</td>
+                </tr>
+                <tr style="font-weight: bold;">
+                    <td>&nbsp;</td>    
+                    <td> Total </td>
+                    <td> {{ total_amount.total_quantity }} </td>
+                    <td> {{ total_amount.total_amount }} </td>
+                </tr>
+                <tr>
+                    <td colspan=4> <a href="{% url 'shop:checkout' %}" class="btn btn-primary">Check out</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <h2 style="text-align: center;"> No items present in the cart <br> continure shopping </h2>
+    {% endif %}  
+        
+</div>
+{% endblock %}
